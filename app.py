@@ -1,8 +1,8 @@
 # My Ratings WebApp
-from flask import Flask, g
+from flask import Flask, g, render_template
 import sqlite3
 
-DATABASE = "appdatabase.db"
+DATABASE = "database.db"
 
 # Initializer
 app = Flask(__name__)
@@ -27,3 +27,12 @@ def query_db(query, args=(), one=False):
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
+
+
+@app.route('/')
+def home():
+    # This is my homepage and it will include the id, name, maker and img
+    # Ask em queries mate
+    sql = """SELECT item.name, item.imgURL FROM item"""
+    results = query_db(sql)
+    return render_template("home.html", result=results)
