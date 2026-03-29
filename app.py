@@ -36,3 +36,7 @@ def home():
     sql = """SELECT item.name, item.imgURL FROM item"""
     results = query_db(sql)
     return render_template("home.html", result=results)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

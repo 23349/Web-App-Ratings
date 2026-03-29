@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+
 {% block body %}
 
 <div class="home-scrollbar">
@@ -6,4 +7,7 @@
     <div class="scrollbar-img">
         <img src="{{result[1]}}" alt ="An image of {{result[0]}}">
     </div>
+    {% endfor %}
 </div>
+
+{% endblock %}
