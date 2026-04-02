@@ -32,10 +32,9 @@ def query_db(query, args=(), one=False):
 @app.route('/')
 def home():
     # This is my homepage and it will include the id, name, maker and img
-    # Ask em queries mate
     sql = """SELECT item.name, item.imgURL FROM item"""
     results = query_db(sql)
-    return render_template("home.html", result=results)
+    return render_template("home.html", results=results)
 
 
 if __name__ == "__main__":
