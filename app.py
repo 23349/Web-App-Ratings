@@ -40,9 +40,11 @@ def home():
 def login():
     sql = """SELECT * FROM user"""
     results = query_db(sql)
-    print(results)
     return render_template("login.html", results=results)
 
+@app.route('/movies')
+def movies():
+    return render_template("movies.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
