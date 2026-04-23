@@ -1,17 +1,20 @@
 /* Variable declarations */
 :root{
     --color1: #0F0F0F;
-    --color2: #5B7553;
-    --color3: #8EB897;
-    --color4: #C3E8BD;
+    --color2: #c20000;
+    --color3: #fffef3;
+    --color4: #a00000;
     --font1: 24px;
     --font2: 18px;
 }
 
 
+
+
 /* Body and other important stuff */
 body{
-    background-color: var(--color4)
+    margin: 0;
+    background-color: var(--color3)
 }
 
 *{
@@ -23,28 +26,56 @@ img{
 }
 
 
+
+
 /* Navigation */
 .navbar{
+    padding: 0;
     margin: 0;
     position: sticky;
     top: 0;
     display: flex;
     width: 100%;
-    text-align: center;
+    height: 60px;
     background-color: var(--color2);
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    align-items: center;
 }
 
-.navbar a{
-    font-size: var(--font2);
+.navbar-logo a{
+    display: flex;
+    align-items: center;
+    gap: 6.5px; 
+    margin-left: 10px;
+    margin-right: 40px;
     text-decoration: none;
-    color: #0F0F0F;
-    padding: 15px;
+    color: #ffffff;
+    font-size: var(--font1);
+    font-weight: 750;
 }
 
-.navbar a:hover{
-    background-color: var(--color3);
+.navbar-logo img{
+    width: auto;
+    height: 48px;
+    object-fit: cover;
 }
+
+.navbar-links a{
+    font-size: 16px;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.navbar-links a:hover{
+    background-color: var(--color4);
+}
+
+
 
 
 /* Home sideways scrollbar */
@@ -63,8 +94,8 @@ img{
 
 .scrollbar-img{
     flex: 0 0 auto; 
-    width: 250px;
-    height: 160px;
+    width: 200px;
+    height: 266.7px;
 }
 
 .scrollbar-img img {
@@ -95,11 +126,14 @@ img{
 }
 
 
-/* Login */
 
+
+/* Login */
 .login-container{
     display: grid;
     place-items: center;
     margin: 50px auto;
     text-align: center;
 }
+
+
