@@ -29,22 +29,39 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 
+# Gets the items for the scrollbar and renders home
 @app.route('/')
 def home(): 
-    # Gets the items for the scrollbar
     sql = """SELECT item.name, item.imgURL FROM item"""
     results = query_db(sql)
     return render_template("home.html", results=results)
 
+
+# Gets the user information for the login page and renders it
 @app.route('/login')
 def login():
     sql = """SELECT * FROM user"""
     results = query_db(sql)
     return render_template("login.html", results=results)
 
+
+
+# Gets all the movies and their information
 @app.route('/movies')
 def movies():
-    return render_template("movies.html")
+    sql = """SELECT item.name, item.imgURL FROM item"""
+    results = query_db(sql)
+    return render_template("movies.html", results=results)
+
+
+
+# Will get the information for the movie that is clicked on and render the page for it    
+@app.route('/movies/<int:id>')
+def cars(id):
+    sql = """SELECT * FROM item WHERE item.item_id = ?"""
+    result = query_db(sql, (id), True)
+    return render_template("movie.html", movie=result)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
