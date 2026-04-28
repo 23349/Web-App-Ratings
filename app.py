@@ -12,6 +12,7 @@ def get_db():
     db = getattr(g, "_database", None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        db.row_factory = sqlite3.Row
     return db
 
 
@@ -32,7 +33,7 @@ def query_db(query, args=(), one=False):
 # Gets the items for the scrollbar and renders home
 @app.route('/')
 def home(): 
-    sql = """SELECT item.name, item.imgURL FROM item"""
+    sql = """SELECT item.name, item.imgURL, item.item_id FROM item"""
     results = query_db(sql)
     return render_template("home.html", results=results)
 
@@ -49,7 +50,7 @@ def login():
 # Gets all the movies and their information
 @app.route('/movies')
 def movies():
-    sql = """SELECT item.name, item.imgURL FROM item"""
+    sql = """SELECT item.name, item.imgURL, item.item_id FROM item"""
     results = query_db(sql)
     return render_template("movies.html", results=results)
 

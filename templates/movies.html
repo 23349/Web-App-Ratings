@@ -2,14 +2,12 @@
 
 {% block body %}
 
-<div style="display: flex; justify-content: center;">
-    <img style=" margin-top: 65px; margin-bottom: 65px; width: 500px; height: auto; " src=" https://media.tenor.com/x8v1oNUOmg4AAAAM/rickroll-roll.gif">
-</div>
-
 <div class="movies-parent">
     {% for result in results %}
     <div class="movies">
-        <img src="{{result[1]}}" alt ="An image of {{result[0]}}">
+        <a href="{{ url_for('individual_movie', id=result['item_id']) }}">
+        <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
+        </a>
     </div>
     {% endfor %}
 </div>

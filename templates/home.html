@@ -10,8 +10,10 @@
     <div class="home-scrollbar">
         {% for result in results %}
         <div class="scrollbar-img">
-            <img src="{{result[1]}}" alt ="An image of {{result[0]}}">
-        <div class="scrollbar-hover">{{result[0]}}</div>
+            <a href="{{ url_for('individual_movie', id=result['item_id']) }}">
+                <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
+            </a>
+        <div class="scrollbar-hover">{{result['name']}}</div>
         </div>
         {% endfor %}
     </div>
