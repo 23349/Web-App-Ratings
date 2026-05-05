@@ -1,6 +1,6 @@
 # My Ratings WebApp
 from flask import Flask, g, render_template, request, url_for, redirect, session
-from werkzeug.security import check_password_hash 
+from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
 
 DATABASE = "database.db"
@@ -8,6 +8,7 @@ DATABASE = "database.db"
 # Initializer
 app = Flask(__name__)
 app.secret_key = 'HELLFLAMEIGNITION'
+
 
 
 def get_db():
@@ -18,6 +19,7 @@ def get_db():
     return db
 
 
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, "_database", None)
@@ -25,11 +27,15 @@ def close_connection(exception):
         db.close()
 
 
+
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
+
+
+
 
 
 # Gets the items for the scrollbar and renders home
@@ -40,6 +46,7 @@ def home():
     return render_template("home.html", results=results)
 
 
+
 # Gets the user information for the login page and renders it
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -47,18 +54,32 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        return (f'Username: {username}, Password: {password}')
+        sql = "SELECT * FROM user WHERE username = ?"
+        user = query_db(sql, [username], one=True)
 
-        # sql = "SELECT * FROM user WHERE username = ?"
-        # user = query_db(sql, [username], one=True)
-
-        # if user and check_password_hash(user['password'], password):
-        #     session['user_id'] = user['id']
-        #     return redirect(url_for('home'))
-        # else:
-        #     return "Invalid username or password"
+        if user and check_password_hash(user['password'], password):
+            session['user_id'] = user['id']
+            return redirect(url_for('home'))
+        else:
+            return "Invalid username or password"
 
     return render_template("login.html")
+
+
+# Gets the user information for the register page and renders it
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Hash
+        hashed_pw = generate_password_hash(password)
+        
+        query_db("INSERT INTO user (username, password) VALUES (?, ?)", [username, hashed_pw])
+        return redirect(url_for('login'))
+        
+    return render_template("register.html")
 
 
 
