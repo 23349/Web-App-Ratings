@@ -1,11 +1,13 @@
 # My Ratings WebApp
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, request, url_for, redirect, session
+from werkzeug.security import check_password_hash 
 import sqlite3
 
 DATABASE = "database.db"
 
 # Initializer
 app = Flask(__name__)
+app.secret_key = 'HELLFLAMEIGNITION'
 
 
 def get_db():
@@ -39,11 +41,24 @@ def home():
 
 
 # Gets the user information for the login page and renders it
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    sql = """SELECT * FROM user"""
-    results = query_db(sql)
-    return render_template("login.html", results=results)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        return (f'Username: {username}, Password: {password}')
+
+        # sql = "SELECT * FROM user WHERE username = ?"
+        # user = query_db(sql, [username], one=True)
+
+        # if user and check_password_hash(user['password'], password):
+        #     session['user_id'] = user['id']
+        #     return redirect(url_for('home'))
+        # else:
+        #     return "Invalid username or password"
+
+    return render_template("login.html")
 
 
 

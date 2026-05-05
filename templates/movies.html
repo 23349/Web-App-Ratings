@@ -7,6 +7,9 @@
     <div class="movies">
         <a href="{{ url_for('individual_movie', id=result['item_id']) }}">
         <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
+        <div class="movie-overlay">
+            <span>{{result['name']}}</span>
+        </div>
         </a>
     </div>
     {% endfor %}
