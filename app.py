@@ -1,5 +1,5 @@
 # My Ratings WebApp
-from flask import Flask, g, render_template, request, url_for, redirect, session
+from flask import Flask, g, render_template, request, url_for, redirect, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
 
@@ -7,7 +7,7 @@ DATABASE = "database.db"
 
 # Initializer
 app = Flask(__name__)
-app.secret_key = 'HELLFLAMEIGNITION'
+app.secret_key = 'FINALSPARK-HELLFLAMEIGNITION'
 
 
 
@@ -70,16 +70,18 @@ def login():
             session['user_id'] = user['id']
             return redirect(url_for('home'))
         else:
-            return "Invalid username or password"
+            flash(" Invalid Username or Password ( O - O ) ", "error")
+            render_template("login.html")
+            return render_template("login.html", username=username)
 
     return render_template("login.html")
 
 
 
-# @app.route('/logout')
-# def logout():
-#     session.clear()
-#     return redirect(url_for('login'))
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
 
 
 
@@ -89,10 +91,14 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form['confirm-password']
         
-        # Hash
+        if password != confirm_password:
+            flash("Passwords did not match ( o ⌓ o ) ", "error")
+            render_template("signup.html")
+            return render_template("signup.html", username=username)
+        
         hashed_pw = generate_password_hash(password)
-        
         query_db("INSERT INTO user (username, password) VALUES (?, ?)", [username, hashed_pw])
         return redirect(url_for('login'))
         

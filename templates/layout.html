@@ -26,9 +26,13 @@
             </div>
 
             <div class="navbar-right">
-                <a class="navbar-links" href="{{url_for('login')}}">LOGIN/SIGNUP</a>
+                {% if g.user %}
+                    <span class="navbar-links">{{ g.user['username'].upper() }}</span>
+                    <a class="navbar-links" href="{{ url_for('logout') }}">LOGOUT</a>
+                {% else %}
+                    <a class="navbar-links" href="{{ url_for('login') }}">LOGIN/SIGNUP</a>
+                {% endif %}
             </div>
-
         </div>
     </nav>
 
