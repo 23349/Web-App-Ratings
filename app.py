@@ -30,8 +30,9 @@ def close_connection(exception):
 
 def query_db(query, args=(), one=False):
     db = get_db()
-    cur = get_db().execute(query, args)
-    db.commit()
+    cur = db.execute(query, args)
+    if query.strip().upper().startswith(("INSERT", "UPDATE", "DELETE")): #COMMIT WITH CHANGES
+        db.commit()
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
@@ -40,12 +41,12 @@ def query_db(query, args=(), one=False):
 
 @app.before_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
+    user = session.get('user')
 
-    if user_id is None:
+    if user is None:
         g.user = None
     else:
-        g.user = query_db("SELECT * FROM user WHERE user_id = ?", [user_id], one=True)
+        g.user = query_db("SELECT * FROM user WHERE user_id = ?", [user], one=True)
 
 
 
@@ -69,10 +70,10 @@ def login():
         user = query_db(sql, [username], one=True)
 
         if user and check_password_hash(user['password'], password):
-            session['user_id'] = user['user_id']
+            session['user'] = user['user_id']
             return redirect(url_for('home'))
         else:
-            flash(" Invalid Username or Password ( O - O ) ", "error")
+            flash("Passwords did not match ( o ⌓ o )", "signup")
             return render_template("login.html", username=username)
 
     return render_template("login.html")
@@ -82,7 +83,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('home'))
+    return redirect(request.referrer)
 
 
 
@@ -96,7 +97,7 @@ def signup():
         email = request.form['email']
         
         if password != confirm_password:
-            flash("Passwords did not match ( o ⌓ o ) ", "error")
+            flash("Passwords did not match ( o ⌓ o )", "signup")
             return render_template("signup.html", username=username, email=email)
         
         hashed_pw = generate_password_hash(password)
@@ -120,17 +121,17 @@ def movies():
 @app.route('/movies/<int:id>')
 def individual_movie(id):
     sql = """SELECT * FROM item WHERE item.item_id = ?"""
-    results = query_db(sql, (id,), True)
+    results = query_db(sql, (id,), one=True)
     return render_template("movie.html", movie=results)
 
 
-
+#Allows the user to search and if a single result is found it will take them directly to that page
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     query = request.values.get('searchbar', '').strip()
     if not query:
-        flash("Please enter a search term.", "error")
-        return redirect(url_for('home'))
+        flash("Please enter a search term.", "search_error")
+        return redirect(request.referrer)
 
     sql = """SELECT item.name, item.imgURL, item.item_id FROM item WHERE item.name LIKE ?"""
     results = query_db(sql, [f"%{query}%"], False)
@@ -138,16 +139,26 @@ def search():
     if len(results) == 1:
         return redirect(url_for('individual_movie', id=results[0]['item_id']))
     if not results:
-        flash(f"No results found for '{query}'", "error")
+        flash(f"No results found for '{query}'", "search_error")
     return render_template("movies.html", results=results)
 
 
-@app.route('/review', methods=['GET', 'POST'])
+# Will allow the user to leave a review
+@app.route('/review', methods=['POST'])
 def review():
-    review = request.values.get('review')
-    query_db("INSERT INTO ratings (review) VALUES (?)", [review])
+    movie_id = request.form.get('movie_id')
+    review_text = request.form.get('review')
 
+    if g.user is None:
+        flash("You must be logged in to review!", "review")
+        return redirect(url_for('login'))
 
+    if review_text and movie_id:
+        query_db("INSERT INTO ratings (review, user_id, item_id) VALUES (?, ?, ?)", (review_text, g.user['user_id'], movie_id))
+        flash("Review submitted!","review")
+    
+    return redirect(url_for('individual_movie', id=movie_id))
 
 if __name__ == "__main__":
     app.run(debug=True)
+

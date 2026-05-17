@@ -4,16 +4,16 @@
 <div class="title">
     <div>MOVIES</div>
     <div style="margin-left: auto; margin-right: 50px;">FILTERS</div>
-    
 </div>
+
 <div class="movies-parent">
     {% for result in results %}
     <div class="movies">
         <a href="{{ url_for('individual_movie', id=result['item_id']) }}">
-        <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
-        <div class="movie-overlay">
-            <span>{{result['name']}}</span>
-        </div>
+            <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
+            <div class="movie-overlay">
+                <span>{{result['name']}}</span>
+            </div>
         </a>
     </div>
     {% endfor %}

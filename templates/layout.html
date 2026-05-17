@@ -23,8 +23,17 @@
                 </div>
                 <a class="navbar-links" href="{{url_for('movies')}}">MOVIES</a>
                <form method="get" action="{{ url_for('search') }}">
-                    <input name="searchbar" type="text" placeholder="Search...">
-                </form>
+                <input name="searchbar" type="text" placeholder="Search...">
+               </form>
+
+               {% with messages = get_flashed_messages(category_filter=["search_error"]) %}
+                  {% if messages %}
+                    {% for message in messages %}
+                    <div style="color: white; font-size: 14px;">{{message}}</div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
             </div>
 
             <div class="navbar-right">

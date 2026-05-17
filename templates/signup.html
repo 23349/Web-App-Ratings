@@ -6,9 +6,9 @@
     <form method="POST" action="signup">
         <input type="text" name="username" value="{{ username if username }}" placeholder="Username" required><br>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% with messages = get_flashed_messages(category_filter=["signup"]) %}
           {% if messages %}
-            {% for category, message in messages %}
+            {% for message in messages %}
               <div class="error-msg">{{ message }}</div>
             {% endfor %}
           {% endif %}

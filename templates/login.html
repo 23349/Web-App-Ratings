@@ -7,9 +7,9 @@
         <input type="text" name="username" value="{{ username if username }}" placeholder="Username" required><br>
         <input type="password" name="password" placeholder="Password" required><br>
 
-         {% with messages = get_flashed_messages(with_categories=true) %}
+         {% with messages = get_flashed_messages(category_filter=["login"]) %}
           {% if messages %}
-            {% for category, message in messages %}
+            {% for message in messages %}
               <div class="error-msg">{{ message }}</div>
             {% endfor %}
           {% endif %}

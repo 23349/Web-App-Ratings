@@ -6,37 +6,31 @@
     <div style="display: flex; justify-content: center;">
         <h2 style="font-size: var(--font2);"> POPULAR</h2>
     </div>
-
     <div class="home-scrollbar">
         {% for result in results %}
-        <div class="scrollbar-img">
+        <div class="scrollbar">
             <a href="{{ url_for('individual_movie', id=result['item_id']) }}">
                 <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
+                <div class="scrollbar-hover"></div>
             </a>
-        <div class="scrollbar-hover">{{result['name']}}</div>
         </div>
         {% endfor %}
     </div>
 
-</div>
-
-<div style="margin-top:80px;">
-
-    <div style="display: flex; justify-content: center;">
+    <div style="margin-top: 50px; display: flex; justify-content: center;">
         <h2 style="font-size: var(--font2);"> NEW</h2>
     </div>
-
     <div class="home-scrollbar">
         {% for result in results %}
-        <div class="scrollbar-img">
+        <div class="scrollbar">
             <a href="{{ url_for('individual_movie', id=result['item_id']) }}">
                 <img src="{{result['imgURL']}}" alt ="An image of {{result['name']}}">
+                <div class="scrollbar-hover"></div>
             </a>
-        <div class="scrollbar-hover">{{result['name']}}</div>
         </div>
         {% endfor %}
     </div>
-
 </div>
+
 
 {% endblock %}

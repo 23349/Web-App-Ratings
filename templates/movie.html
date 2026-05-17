@@ -1,12 +1,11 @@
 {% extends "layout.html" %}
 
 {% block body %}
-
     <div id="mOverlay" class="mOverlay">
         <div class="mContent">
             <span id="reviewClose" class="close-btn">&times;</span>
-            <h2>Write a Review</h2>
-            <form method="get" action="url_for{{review}}">
+            <form method="post" action="{{url_for('review')}}">
+                <input type="hidden" name="movie_id" value="{{movie['item_id']}}">
                 <textarea name="review" placeholder="Tell us what you think..."></textarea><br>
                 <button type="submit" class="submit-btn">Submit</button>
             </form>
@@ -22,10 +21,19 @@
             <h1>{{movie['name']}}</h1>
             <h4>{{movie['description']}}</h4>
         </div>
-        <div style="margin-top: 15vh; color: #000000; font-size: 12px; text-align: center;">
-            <button class="reviewOpenButton" id="reviewOpen">Leave a Review!</button>
+        {% if g.user %}
+            <div style="margin-top: 15vh; color: #000000; font-size: 12px; text-align: center;">
+                <button class="reviewOpenButton" id="reviewOpen">Leave a Review!</button>
+        {% else %}
+            <div style="margin-top: 15vh;font-size: 12px; text-align: center;">
+                <a href="{{ url_for('login') }}">
+                    <button class="redirect-btn">PLEASE LOGIN TO REVIEW</button>
+                </a>
+            </div>
+        {% endif %}
     </div>
 </div>
+
 
 {% endblock %}
 
