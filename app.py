@@ -31,8 +31,7 @@ def close_connection(exception):
 def query_db(query, args=(), one=False):
     db = get_db()
     cur = db.execute(query, args)
-    if query.strip().upper().startswith(("INSERT", "UPDATE", "DELETE")): #COMMIT WITH CHANGES
-        db.commit()
+    db.commit()
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv

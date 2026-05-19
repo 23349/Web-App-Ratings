@@ -7,7 +7,8 @@
         <input type="text" name="username" value="{{ username if username }}" placeholder="Username" required><br>
         <input type="password" name="password" placeholder="Password" required><br>
 
-         {% with messages = get_flashed_messages(category_filter=["login"]) %}
+        <!-- Gets the message by checking the messages taht I have flashed -->
+         {% with messages = get_flashed_messages(category_filter=["login"]) %} 
           {% if messages %}
             {% for message in messages %}
               <div class="error-msg">{{ message }}</div>
