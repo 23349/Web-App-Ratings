@@ -2,12 +2,15 @@
 
 {% block body %}
 <div class ="account-container">
+  <!-- Login title -->
     <span style="font-size: 24px; color: #ffff; font-weight: 600;">LOGIN</span>
     <form method="POST" action="login">
+        <!-- Username box (will keep the username in a failed attempt) -->
         <input type="text" name="username" value="{{ username if username }}" placeholder="Username" required><br>
+        <!-- Password -->
         <input type="password" name="password" placeholder="Password" required><br>
 
-        <!-- Gets the message by checking the messages taht I have flashed -->
+        <!-- Error mesage display for when the Username and Password -->
          {% with messages = get_flashed_messages(category_filter=["login"]) %} 
           {% if messages %}
             {% for message in messages %}
@@ -16,10 +19,12 @@
           {% endif %}
         {% endwith %}
         
-    
+        <!-- Login button -->
         <button type="submit">CONTINE</button>
+
         <div style="display: block; margin-top: 15px; color: #ffff;">
           <span>or</span>
+          <!-- Link to sign up page -->
           <a class="signup-link" href="{{url_for('signup')}}">SIGN UP</a>
       </div>
     </form>

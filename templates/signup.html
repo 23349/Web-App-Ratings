@@ -2,10 +2,13 @@
 
 {% block body %}
 <div class ="account-container">
+    <!-- Title -->
     <span style="font-size: 24px; color: #ffff; font-weight: 600;">SIGN UP</span>
     <form method="POST" action="signup">
+        <!-- Also Username box (will keep the username in a failed attempt) -->
         <input type="text" name="username" value="{{ username if username }}" placeholder="Username" required><br>
 
+        <!-- Error mesage for when the passwords dont match etc -->
         {% with messages = get_flashed_messages(category_filter=["signup"]) %}
           {% if messages %}
             {% for message in messages %}
@@ -14,9 +17,14 @@
           {% endif %}
         {% endwith %}
         
+        <!-- password box -->
         <input type="password" name="password" placeholder="Password" required><br>
+        <!-- Confirm password box -->
         <input type="password" name="confirm-password" placeholder=" Confirm Password" required><br>
+        <!-- Email and will keep it if there is a failed attempt: Currently optional and unchecked -->
         <input type="email" name="email" value="{{ email if email }}" placeholder="Email"><br>
+        
+        <!-- Sign up button -->
         <button type="submit">CONTINUE</button>
     </form>
 </div>
