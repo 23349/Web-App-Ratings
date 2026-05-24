@@ -116,15 +116,35 @@ def movies():
 
 
 
-# Will get the information for the movie that is clicked on and render the page for it    
+# Will get the information for the movie that is clicked on and render the page for it:
 @app.route('/movies/<int:id>')
 def individual_movie(id):
     sql = """SELECT * FROM item WHERE item.item_id = ?"""
     results = query_db(sql, (id,), one=True)
-    return render_template("movie.html", movie=results)
+    has_reviewed = False
+
+    # Checks if there even is a movie:
+    if results is None:
+        return ("Movie not found")
+
+    # Checks if the user is logged in
+    # If they aren't it wont allow them to leave a review
+    if g.user is None:
+            flash("You must be logged in to review!", "review")
 
 
-#Allows the user to search and if a single result is found it will take them directly to that page
+    # If they are, it will chekc if they have already left a review
+    else:
+        sql = """SELECT * FROM ratings WHERE item_id = ? AND user_id = ?"""
+        review_check = query_db(sql, (id, g.user['user_id']))
+        # If they have its sets the has_reviewed to True
+        if len(review_check) > 0:
+            has_reviewed = True
+
+    return render_template("movie.html", movie=results, has_reviewed=has_reviewed)
+
+
+# Allows the user to search and if a single result is found it will take them directly to that page
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     query = request.values.get('searchbar', '').strip()
@@ -148,15 +168,11 @@ def review():
     movie_id = request.form.get('movie_id')
     review_text = request.form.get('review')
 
-    if g.user is None:
-        flash("You must be logged in to review!", "review")
-        return redirect(url_for('login'))
-
     if review_text and movie_id:
         query_db("INSERT INTO ratings (review, user_id, item_id) VALUES (?, ?, ?)", (review_text, g.user['user_id'], movie_id))
-        flash("Review submitted!","review")
     
     return redirect(url_for('individual_movie', id=movie_id))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

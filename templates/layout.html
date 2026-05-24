@@ -3,29 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FONTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <!-- Link to my stylesheet -->
     <link rel = "stylesheet" href = "{{url_for('static', filename='style.css')}}">
     <title>Popcorn</title>
 </head>
 <body>
-
+    <!-- Navigation top thingy mbob -->
     <nav class="navbar">
         <div class="navbar-container">
 
+            <!-- Left side with logo and name, both wrapped in a link to home -->
             <div class="navbar-left">
                 <div class="navbar-logo">
                     <a href="{{url_for('home')}}">
+                        <!-- Logo -->
                         <img src="{{ url_for('static', filename='images/logo.webp')}}" alt="Popcorn logo">
+                        <!-- Name -->
                         <span>POPCORN</span>
                     </a>
                 </div>
+                
+                <!-- Movie link -->
                 <a class="navbar-links" href="{{url_for('movies')}}">MOVIES</a>
+
+                <!-- Search bar -->
                <form method="get" action="{{ url_for('search') }}">
                 <input name="searchbar" type="text" placeholder="Search...">
                </form>
-
+               <!-- Search error message display -->
                {% with messages = get_flashed_messages(category_filter=["search_error"]) %}
                   {% if messages %}
                     {% for message in messages %}
@@ -33,20 +42,24 @@
                     {% endfor %}
                   {% endif %}
                 {% endwith %}
-
             </div>
 
+            <!-- Right side with login -->
             <div class="navbar-right">
+                <!-- Checks if a user is logged in -->
                 {% if g.user %}
+                    <!-- If there is a user it will dislplay their username and logout option -->
                     <span class="navbar-links">{{ g.user['username'].upper() }}</span>
                     <a class="navbar-links" href="{{ url_for('logout') }}">LOGOUT</a>
                 {% else %}
+                    <!-- Otherwise a link to the login page is displayed -->
                     <a class="navbar-links" href="{{ url_for('login') }}">LOGIN/SIGNUP</a>
                 {% endif %}
             </div>
         </div>
     </nav>
 
+    <!-- Spot to inject html for other pages -->
     {% block body %}
     {% endblock %}
     

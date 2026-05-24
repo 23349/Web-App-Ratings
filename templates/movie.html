@@ -1,16 +1,29 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<!-- Displays the movie poster-->
 <div class="movie-container">
     <div class="movie-poster">
         <img src="{{movie['imgURL']}}" alt=" A image of the movie {{movie['name']}}">
     </div>
+
+    <!-- Movie name and desciption -->
     <div style="display: inline-block;">
         <div>
             <h1>{{movie['name']}}</h1>
             <h4>{{movie['description']}}</h4>
         </div>
+
+        <!-- Checks if a user is logged in -->
         {% if g.user %}
+            <!-- Checks if they have alreafy left a review on this movie-->
+            {% if has_reviewed == true %}
+                    <div style="margin-top: 15vh;font-size: 12px; text-align: center;">
+                        <h1> Sorry, but you have already reviewed this movie </h1> 
+                    </div>
+            {% else %}
+
+            <!-- If they haven't then it will let them -->
             <div style="margin-top: 5vh; color: #000000; font-size: 12px; text-align: center;">
                 <div class="mContent">
                     <form method="post" action="{{url_for('review')}}">
@@ -19,6 +32,10 @@
                         <button type="submit" class="submit-btn">SUBMIT</button>
                     </form>
                 </div>
+            </div>
+            {% endif %}
+        
+        <!-- If there isnt a logged in user it leaves a log in redirect -->
         {% else %}
             <div style="margin-top: 15vh;font-size: 12px; text-align: center;">
                 <a href="{{ url_for('login') }}">
@@ -26,8 +43,7 @@
                 </a>
             </div>
         {% endif %}
+
     </div>
 </div>
-
-
 {% endblock %}
