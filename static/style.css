@@ -12,6 +12,12 @@
 
 
 
+
+
+
+
+
+
 /* Body and other important stuff */
 body{
     margin: 0;
@@ -25,6 +31,12 @@ body{
 img{
     width: 100%;
 }
+
+
+
+
+
+
 
 
 
@@ -110,6 +122,14 @@ img{
 }
 
 
+
+
+
+
+
+
+
+
 /* Home sideways scrollbar */
 .home-scrollbar{
     display: flex;
@@ -154,6 +174,14 @@ img{
     transition: opacity 0.3s ease;
     opacity: 1;
 }
+
+
+
+
+
+
+
+
 
 
 /* Login/signup */
@@ -223,6 +251,15 @@ img{
     font-weight: 525;
 }
 
+
+
+
+
+
+
+
+
+
 /* Movie page */
 .movies-parent {
     margin: 0 50px 50px 50px;
@@ -257,7 +294,7 @@ img{
 
 .movie-overlay {
     position: absolute;
-    /* Centers text */
+    /* Centers text I think */
     top: 0;
     bottom: 0;
     left: 0;
@@ -287,6 +324,12 @@ img{
     transition: opacity 0.3s ease;
     opacity: 1;
 }
+
+
+
+
+
+
 
 
 
