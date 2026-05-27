@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<!-- Displays the movie poster-->
+<!-- Displays the movie poster etc-->
 <div class="movie-container">
     <div class="movie-poster">
         <img src="{{movie['imgURL']}}" alt=" A image of the movie {{movie['name']}}">
@@ -11,6 +11,7 @@
     <div style="display: inline-block;">
         <div>
             <h1>{{movie['name']}}</h1>
+            <h4></h4>
             <h4>{{movie['description']}}</h4>
         </div>
 
@@ -39,11 +40,11 @@
         {% else %}
             <div style="margin-top: 15vh;font-size: 12px; text-align: center;">
                 <a href="{{ url_for('login') }}">
+                    <!-- Redirect button -->
                     <button class="redirect-btn">PLEASE LOGIN TO REVIEW</button>
                 </a>
             </div>
         {% endif %}
-
     </div>
 </div>
 {% endblock %}

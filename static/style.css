@@ -101,6 +101,43 @@ img{
     transform: translateY(-1px);
 }
 
+.navbar-logout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Special emoji ( T - T ) */
+.crying-emoji{
+    position: absolute;
+    font-size: 18px;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 15px;
+    transition: all 0.1s ease;
+    font-weight: 600;
+    opacity: 0;
+    font-size: 16px;
+}
+
+.navbar-logout:hover .crying-emoji{
+    transition: all 0.1s ease;
+    opacity: 1;
+}
+
+.navbar-logout:hover span{
+    transition: all 0.1s ease;
+    opacity: 0;
+}
+
 .navbar-left input[type="text"]{
     padding: 8px 15px;
     border-radius: 20px;
@@ -136,11 +173,13 @@ img{
     overflow-x: auto; 
     overflow-y: hidden;
     gap: 16px; 
-    /* padding: 10px 20px;  */
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
     max-width: 95%; 
     margin: auto;
+}
+
+/* Hides the scrollbar in home scrollbar */
+.home-scrollbar::-webkit-scrollbar {
+    display: none;
 }
 
 .scrollbar{

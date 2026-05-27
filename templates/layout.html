@@ -49,8 +49,11 @@
                 <!-- Checks if a user is logged in -->
                 {% if g.user %}
                     <!-- If there is a user it will dislplay their username and logout option -->
-                    <span class="navbar-links">{{ g.user['username'].upper() }}</span>
-                    <a class="navbar-links" href="{{ url_for('logout') }}">LOGOUT</a>
+                    <span class="navbar-links">{{ g.user['username']}}</span>
+                    <a class="navbar-logout" href="{{ url_for('logout') }}">
+                        <span style="transition: all 0.1s ease;">LOGOUT</span>
+                        <div class="crying-emoji">BYE BYE :)</div>
+                    </a>
                 {% else %}
                     <!-- Otherwise a link to the login page is displayed -->
                     <a class="navbar-links" href="{{ url_for('login') }}">LOGIN/SIGNUP</a>

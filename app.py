@@ -72,7 +72,7 @@ def login():
             session['user'] = user['user_id']
             return redirect(url_for('home'))
         else:
-            flash("Passwords did not match ( o ⌓ o )", "signup")
+            flash("Passwords did not match ( o ⌓ o )", "login")
             return render_template("login.html", username=username)
 
     return render_template("login.html")
