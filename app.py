@@ -119,18 +119,18 @@ def movies():
 # Allows the user to search and if a single result is found it will take them directly to that page
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    query = request.values.get('searchbar', '').strip()
-    if not query:
+    search = request.values.get('searchbar', '').strip()
+    if not search:
         flash("Please enter a search term.", "search_error")
         return redirect(request.referrer)
 
     sql = """SELECT item.name, item.imgURL, item.item_id FROM item WHERE item.name LIKE ?"""
-    results = query_db(sql, [f"%{query}%"], False)
+    results = query_db(sql, [f"%{search}%"], False)
 
     if len(results) == 1:
         return redirect(url_for('individual_movie', id=results[0]['item_id']))
     if not results:
-        flash(f"No results found for '{query}'", "search_error")
+        flash(f"No results found for '{search}'", "search_error")
     return render_template("movies.html", results=results)
 
 

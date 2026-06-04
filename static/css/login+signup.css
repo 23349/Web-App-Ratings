@@ -37,7 +37,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer; 
-    transition: all 0.3s ease, all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .account-container button:hover {

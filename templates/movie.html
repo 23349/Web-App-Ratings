@@ -10,7 +10,7 @@
     <!-- Movie name and desciption -->
     <div style="display: inline-block;">
         <div>
-            <h1>{{movie['name']}}</h1>
+            <h1 style="margin-top: 0;">{{movie['name']}}</h1>
             {% if movie_rating %}
                 <h4>{{movie_rating}}</h4>
             {% else %}
@@ -34,7 +34,7 @@
             <!-- If they haven't then it will let them -->
             <div class="review-content">
                 <button id="dropdown-btn" class="dropdown-btn">REVIEW</button>
-                <form id="reviewDropdown" method="post" action="{{url_for('review')}}">
+                <form style="gap: 10px;" id="reviewDropdown" method="post" action="{{url_for('review')}}">
                     <input type="hidden" name="movie_id" value="{{movie['item_id']}}">
                     <div>
                         <!-- Allow the user to alsp leave a star rating! -->
@@ -56,7 +56,7 @@
                         </div>
                     </div>
 
-                    <textarea name="review" placeholder="Tell us what you think..."></textarea><br>
+                    <textarea name="review" placeholder="Tell us what you think..."></textarea>
                     <button type="submit" class="submit-btn">SUBMIT</button>
                 </form>
             </div>
@@ -82,7 +82,20 @@
 
     if (toggleBtn && form) {
     toggleBtn.addEventListener("click", function() {
-        form.style.display = form.style.display === "flex" ? "none" : "flex";
+
+        toggleBtn.classList.toggle("active");
+        
+        if (form.style.display === "flex") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "flex";
+
+            form.animate(
+                [  { opacity: 0, transform: "translateY(-20px)" }, { opacity: 1, transform: "translateY(0)" }],
+                { duration: 300, easing: "ease"}
+            );
+            
+        }
     });
     }
 </script>
